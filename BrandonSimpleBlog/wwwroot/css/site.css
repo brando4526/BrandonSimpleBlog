@@ -43,8 +43,19 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  /*margin-bottom: 60px;*/
+  /*padding-top: 56px;*/
+  background-color:#e5e5e5;
 }
+
+.page-container {
+    background-color: white;
+    box-shadow: 0px 6px 30px rgba(0,0,0,0.1);
+    margin-top: 70px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -53,4 +64,89 @@ body {
   /* Set the fixed height of the footer here */
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
+}
+
+
+/*
+ * 	Owl Theme
+ */
+.owl-carousel .owl-nav .owl-prev, .owl-carousel .owl-nav .owl-next {
+    width: 44px;
+    height: 44px;
+    text-align: center;
+    line-height: 40px;
+    
+    border-radius: 50%;
+    padding: 0 !important;
+    position: absolute;
+    margin-top: -22px;
+    top: 50%;
+    color: #090916 !important;
+    cursor: pointer;
+    display: inline-block;
+    z-index: 10;
+    font-size: 24px !important;
+}
+
+.owl-carousel .owl-nav .owl-prev:hover, .owl-carousel .owl-nav .owl-next:hover {
+    border: 2px solid #090916 !important; 
+    color: #090916;
+}
+
+.owl-carousel .owl-nav .owl-prev {
+    left: 24px;
+}
+
+.owl-carousel .owl-nav .owl-next {
+    right: 24px;
+}
+
+.owl-dots {
+    position: absolute;
+    right: 0;
+    bottom: 5px;
+    left: 0;
+    z-index: 15;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding-left: 0;
+    margin-right: 15%;
+    margin-left: 15%;
+    list-style: none;
+    margin-bottom: 16px;
+}
+
+.owl-dots .owl-dot {
+    position: relative;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    max-width: 30px;
+    height: 10px;
+    margin-right: 3px;
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+.owl-dots .owl-dot span {
+    height: 3px;
+    width: 100%;
+    margin-top: 3px;
+    display: block;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.owl-dots .owl-dot.active span {
+    background-color: rgba(0,0,0,.5);
+}
+
+.social-media-icon{
+    padding:10px;
 }

@@ -2,7 +2,166 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="owl-carousel">
+        <div>
+            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+            <div class="featured-meta-overlay text-center">
+                <span class="meta-catergories"><a href="#">Gaming</a>, <a href="#">Accessibility</a></span>
+                <h3 class="featured-title">Some Featured Post Title</h3>
+                <p class="featured-excerpt">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ut tortor metus. Fusce et…
+                </p>
+                <a href="#" class="btn btn-outline-secondary btn-read-continue">Continue Reading</a>
+            </div>
+        </div>
+        <div>
+            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+            <div class="featured-meta-overlay text-center">
+                <span class="meta-catergories"><a href="#">Gaming</a>, <a href="#">Accessibility</a></span>
+                <h3 class="featured-title">Some Featured Post Title</h3>
+                <p class="featured-excerpt">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ut tortor metus. Fusce et…
+                </p>
+                <a href="#" class="btn btn-outline-secondary btn-read-continue">Continue Reading</a>
+            </div>
+        </div>
+        <div>
+            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+            <div class="featured-meta-overlay text-center">
+                <span class="meta-catergories"><a href="#">Gaming</a>, <a href="#">Accessibility</a></span>
+                <h3 class="featured-title">Some Featured Post Title</h3>
+                <p class="featured-excerpt">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ut tortor metus. Fusce et…
+                </p>
+                <a href="#" class="btn btn-outline-secondary btn-read-continue">Continue Reading</a>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+
+<div class="container main-content">
+    <div class="row">
+
+
+        <!-- Blog Entries Column -->
+        <div class="col-md-8">
+
+            <partial name="_BlogPostListPartial" />
+
+        </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+            <!-- Search Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Site Search</h5>
+                <div class="card-body">
+                    <div class="input-group">
+                        <input type="text" class="form-control border-right-0 border" placeholder="Search...">
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-secondary border-left-0 border" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Me Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">About Me</h5>
+                <div class="card-body">
+                    You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+                </div>
+            </div>
+
+            <!-- Categories Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Categories</h5>
+                <div class="card-body">
+                    <div class="row">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Gaming <span class="badge badge-dark">4</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Life <span class="badge badge-dark">2</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Accessibility <span class="badge badge-dark">3</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Technology <span class="badge badge-dark">1</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Side Widget</h5>
+                <div class="card-body">
+                    You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+                </div>
+            </div>
+
+            <!-- Tag Cloud Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Tag Cloud</h5>
+                <div class="card-body">
+                    You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+</div>
+@section Scripts
+{
+    <script>
+    $(document).ready(function () {
+        $(".owl-carousel").owlCarousel({
+            dots: true,
+            autoplay:true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+            //nav: true,
+            //navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+            loop: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 0,
+                },
+                768: {
+                    items: 1,
+                    stagePadding: 0,
+                },
+                992: {
+                    items: 1,
+                    stagePadding: 0,
+                },
+                1200: {
+                    items: 1,
+                    stagePadding: 0,
+                },
+                1500: {
+                    items: 1,
+                    stagePadding: 0,
+                }
+            }
+        });
+        });
+
+    </script>
+}
