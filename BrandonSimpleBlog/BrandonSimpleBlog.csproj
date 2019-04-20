@@ -9,6 +9,8 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20190402074355_new.cs" />
     <Compile Remove="Data\Migrations\20190402074355_new.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190404034332_AddBlogTables.cs" />
+    <Compile Remove="Data\Migrations\20190404034332_AddBlogTables.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +27,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
 </Project>
