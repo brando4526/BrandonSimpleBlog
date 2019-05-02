@@ -1,6 +1,8 @@
 ﻿@page
 @model BrandonSimpleBlog.Areas.Admin.Pages.IndexModel
 @{
+    ViewData["Title"] = "Admin Dashboard";
+    ViewData["ActivePage"] = AdminNavPages.Index;
 }
 
-<div>administrator index page</div>
+    <h4>@ViewData["Title"]</h4>
