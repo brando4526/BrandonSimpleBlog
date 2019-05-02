@@ -49,6 +49,12 @@ $dropdown-font-size: $font-size-base*.8;
     
 }
 
+.card-login {
+    max-width: 25rem;
+    border-radius: 0.25rem;
+    box-shadow: 0px 6px 30px rgba(0,0,0,0.1);
+}
+
 .card-header{
     border-bottom:none;
 }
@@ -139,5 +145,11 @@ h1, h2, h3, h4, h5, h6, .nav-item > a, .dropdown-menu > a, .btn-read-continue {
     background-color: #505050 !important;
     color: #fff;
 }
+
+.dropdown-item-button{
+    text-transform:uppercase;
+    font-family:$headings-font-family;
+}
+
 
 

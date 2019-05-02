@@ -54,6 +54,7 @@ namespace BrandonSimpleBlog
                 .AddRazorPagesOptions(options =>
                 {
                     options.AllowAreas = true;
+                    options.Conventions.AuthorizeAreaFolder("Admin","/");
                     options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
                 });

@@ -47,14 +47,6 @@ namespace BrandonSimpleBlog.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
-
-            [DataType(DataType.Text)]
-            [Display(Name = "First name")]
-            public string FirstName { get; set; }
-
-            [DataType(DataType.Text)]
-            [Display(Name = "Last name")]
-            public string LastName { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -74,9 +66,7 @@ namespace BrandonSimpleBlog.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 Email = email,
-                PhoneNumber = phoneNumber,
-                FirstName=user.FirstName,
-                LastName=user.LastName
+                PhoneNumber = phoneNumber
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
