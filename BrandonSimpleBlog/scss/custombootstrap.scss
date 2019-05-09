@@ -151,5 +151,9 @@ h1, h2, h3, h4, h5, h6, .nav-item > a, .dropdown-menu > a, .btn-read-continue {
     font-family:$headings-font-family;
 }
 
+.list-group-item.active {
+    color: #505050;
+    border-left: solid 5px #505050 !important;
+}
 
 

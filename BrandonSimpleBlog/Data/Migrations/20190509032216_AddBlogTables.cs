@@ -27,6 +27,12 @@ namespace BrandonSimpleBlog.Data.Migrations
                 table: "AspNetUsers",
                 nullable: true);
 
+            migrationBuilder.AddColumn<bool>(
+                name: "HasAvatarImage",
+                table: "AspNetUsers",
+                nullable: false,
+                defaultValue: false);
+
             migrationBuilder.AddColumn<string>(
                 name: "LastName",
                 table: "AspNetUsers",
@@ -141,6 +147,10 @@ namespace BrandonSimpleBlog.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "FirstName",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "HasAvatarImage",
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(

@@ -8,20 +8,28 @@ namespace BrandonSimpleBlog.Data
 {
     public class DbInitializer
     {
-        private ApplicationDbContext _ctx;
+        private ApplicationDbContext _context;
         private UserManager<ApplicationUser> _userMgr;
 
         public DbInitializer(ApplicationDbContext context, UserManager<ApplicationUser> userMgr)
         {
-            _ctx = context;
+            _context = context;
             _userMgr = userMgr;
         }
 
         public void SeedData()
         {
-            _ctx.Database.EnsureCreated();
+            _context.Database.EnsureCreated();
 
-            if (_ctx.Users.Any())
+            if (!_context.Roles.Any())
+            {
+                _context.Roles.Add(new IdentityRole() { Name = "Administrator", NormalizedName = "ADMINISTRATOR" });
+                _context.Roles.Add(new IdentityRole() { Name = "Guest", NormalizedName = "GUEST" });
+        
+                _context.SaveChangesAsync().Wait();
+            }
+
+            if (_context.Users.Any())
             {
                 return;   // users have already been seeded
             }
@@ -32,13 +40,17 @@ namespace BrandonSimpleBlog.Data
                 UserName = "admin",
                 EmailConfirmed = true,
                 LastName="Admin",
-                FirstName="Brandon"
+                FirstName="Brandon",
+                HasAvatarImage=false
+                
                 
             };
 
             _userMgr.CreateAsync(user, "Skittles123!").Wait(); // Temp Password
 
-            _ctx.SaveChangesAsync().Wait();
+            _userMgr.AddToRoleAsync(user, "Administrator").Wait();
+
+            _context.SaveChangesAsync().Wait();
         }
     }
 }

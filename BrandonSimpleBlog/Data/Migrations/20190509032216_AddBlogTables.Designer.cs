@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrandonSimpleBlog.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190409051022_AddBlogTables")]
+    [Migration("20190509032216_AddBlogTables")]
     partial class AddBlogTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,8 @@ namespace BrandonSimpleBlog.Data.Migrations
                     b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName");
+
+                    b.Property<bool>("HasAvatarImage");
 
                     b.Property<string>("LastName");
 

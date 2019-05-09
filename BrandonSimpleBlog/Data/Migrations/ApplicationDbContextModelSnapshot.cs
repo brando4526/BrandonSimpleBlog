@@ -36,6 +36,8 @@ namespace BrandonSimpleBlog.Data.Migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<bool>("HasAvatarImage");
+
                     b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");

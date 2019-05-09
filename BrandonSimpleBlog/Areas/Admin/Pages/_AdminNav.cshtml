@@ -1,8 +1,8 @@
 ﻿@inject SignInManager<ApplicationUser> SignInManager
 
-<a class="list-group-item list-group-item-action bg-light border-0 @AdminNavPages.IndexNavClass(ViewContext)" asp-page="./Index">Dashboard</a>
-<a class="list-group-item list-group-item-action bg-light border-0 @AdminNavPages.AccountInfoNavClass(ViewContext)" asp-page="./AccountInfo">My Account</a>
-<a class="list-group-item list-group-item-action bg-light border-0 @AdminNavPages.ManageUsersNavClass(ViewContext)" asp-page="./ManageUsers">Users</a>
-<a class="list-group-item list-group-item-action bg-light border-0 @AdminNavPages.ManageBlogPostsNavClass(ViewContext)" asp-page="./ManageBlogPosts">Posts</a>
-<a class="list-group-item list-group-item-action bg-light border-0 @AdminNavPages.ManageCategoriesNavClass(ViewContext)" asp-page="./ManageCategories">Categories</a>
-<a class="list-group-item list-group-item-action bg-light border-0 @AdminNavPages.ManageBlogSettingsNavClass(ViewContext)" asp-page="./ManageBlogSettings">Settings</a>
+<a class="list-group-item list-group-item-action bg-light border-top-0 border-bottom-0 @AdminNavPages.IndexNavClass(ViewContext)" asp-page="./Index"><span class="fa fa-tachometer-alt"></span> Dashboard</a>
+<a class="list-group-item list-group-item-action bg-light border-top-0 border-bottom-0 @AdminNavPages.AccountInfoNavClass(ViewContext)" asp-page="./AccountInfo"><span class="fa fa-user"></span> My Account</a>
+<a class="list-group-item list-group-item-action bg-light border-top-0 border-bottom-0 @AdminNavPages.ManageUsersNavClass(ViewContext)" asp-page="./ManageUsers"><span class="fa fa-users"></span> Users</a>
+<a class="list-group-item list-group-item-action bg-light border-top-0 border-bottom-0 @AdminNavPages.ManageBlogPostsNavClass(ViewContext)" asp-page="./ManageBlogPosts"><span class="fa fa-thumbtack"></span> Posts</a>
+<a class="list-group-item list-group-item-action bg-light border-top-0 border-bottom-0 @AdminNavPages.ManageCategoriesNavClass(ViewContext)" asp-page="./ManageCategories"><span class="fa fa-tags"></span> Categories</a>
+<a class="list-group-item list-group-item-action bg-light border-top-0 border-bottom-0 @AdminNavPages.ManageBlogSettingsNavClass(ViewContext)" asp-page="./ManageBlogSettings"><span class="fa fa-cog"></span> Settings</a>

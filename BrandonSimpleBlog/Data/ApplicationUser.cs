@@ -13,5 +13,6 @@ namespace BrandonSimpleBlog.Data
         public string FirstName { get; set; }
         
         public string LastName { get; set; }
+        public bool HasAvatarImage { get; set; }
     }
 }
