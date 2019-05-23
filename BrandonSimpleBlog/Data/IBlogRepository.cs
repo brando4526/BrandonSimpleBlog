@@ -7,10 +7,11 @@ namespace BrandonSimpleBlog.Data
 {
     interface IBlogRepository
     {
-        BlogResult GetPosts(int pageSize=10, int page=1);
-        BlogResult GetPostsByTerm(string term, int pageSize, int page);
-        BlogResult GetPostsByCategory(string category, int pageSize, int page);
-        BlogResult GetPostsByMonth(int month, int year, int pageSize, int page);
+        BlogResult GetAllPosts(int pageSize = 10, int page = 1);
+        BlogResult GetPublishedPosts(int pageSize=10, int page=1);
+        BlogResult GetPublishedPostsByTerm(string term, int pageSize, int page);
+        BlogResult GetPublishedPostsByCategory(string category, int pageSize, int page);
+        BlogResult GetPublishedPostsByMonth(int month, int year, int pageSize, int page);
         IEnumerable<string> GetArchiveMonths();
         BlogPost GetPost(int id);
         BlogPost GetPost(string slug);
