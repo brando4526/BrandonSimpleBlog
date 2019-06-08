@@ -1,0 +1,77 @@
+﻿@page
+@model BrandonSimpleBlog.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Featured
+{ 
+    <div class="container">
+        <div class="owl-carousel">
+            @foreach (var post in Model.FeaturedPosts)
+            {
+                <div>
+                    <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+                    <div class="featured-meta-overlay text-center">
+                        <span class="meta-catergories">
+                            @foreach (var item in post.Categories.Split(","))
+                            {
+                                <a href="/category/@item">@item</a>
+                                @(item != post.Categories.Split(",").Last() ? ", " : "")
+                            }
+                        </span>
+                        <h3 class="featured-title">@post.Title</h3>
+                        <p class="featured-excerpt">
+                            @post.Excerpt
+                        </p>
+                        <a href="/post/@post.PostId/@post.Slug" class="btn btn-outline-secondary btn-read-continue">Continue Reading</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+}
+
+<partial name="_BlogPostListPartial" model="Model.Posts" />
+      
+@section Scripts
+{
+    <script>
+    $(document).ready(function () {
+        $(".owl-carousel").owlCarousel({
+            dots: true,
+            autoplay:true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+            //nav: true,
+            //navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+            loop: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    stagePadding: 0,
+                },
+                768: {
+                    items: 1,
+                    stagePadding: 0,
+                },
+                992: {
+                    items: 1,
+                    stagePadding: 0,
+                },
+                1200: {
+                    items: 1,
+                    stagePadding: 0,
+                },
+                1500: {
+                    items: 1,
+                    stagePadding: 0,
+                }
+            }
+        });
+        });
+
+    </script>
+}
+

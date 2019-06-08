@@ -5,6 +5,12 @@ namespace BrandonSimpleBlog.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+
+        public ApplicationDbContext()
+        {
+
+        }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -17,7 +23,5 @@ namespace BrandonSimpleBlog.Data
         }
 
         public virtual DbSet<BlogPost> BlogPosts { get; set; }
-        public virtual DbSet<BlogCategory> BlogCategories { get; set; }
-        public virtual DbSet<BlogCategoryAssignment> BlogCategoryAssignments { get; set; }
     }
 }

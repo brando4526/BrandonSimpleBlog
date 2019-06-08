@@ -1,0 +1,12 @@
+﻿@page
+@model BrandonSimpleBlog.Pages.ArchiveModel
+@{
+    ViewData["Title"] = "Archive";
+}
+
+    <h1>Blog Archive</h1>
+
+@foreach (var month in Model.ArchiveMonths)
+{
+<div>@month.Year @month.MonthName</div>
+}

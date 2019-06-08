@@ -13,6 +13,14 @@
     <Compile Remove="Data\Migrations\20190404034332_AddBlogTables.Designer.cs" />
     <Compile Remove="Data\Migrations\20190409051022_AddBlogTables.cs" />
     <Compile Remove="Data\Migrations\20190409051022_AddBlogTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190509032216_AddBlogTables.cs" />
+    <Compile Remove="Data\Migrations\20190509032216_AddBlogTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190525045109_AddBlogTables.cs" />
+    <Compile Remove="Data\Migrations\20190525045109_AddBlogTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190605232400_AddBlogTables.cs" />
+    <Compile Remove="Data\Migrations\20190605232400_AddBlogTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190605233750_AddBlogTables.cs" />
+    <Compile Remove="Data\Migrations\20190605233750_AddBlogTables.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,17 @@
+﻿@page
+@model BrandonSimpleBlog.Pages.SearchModel
+@{
+    ViewData["Title"] = "Search Results for \""+Model.term+"\"";
+}
+
+    <h1>Search Results for "@Model.term"</h1>
+@if (Model.SearchResults!=null && Model.SearchResults.TotalReults>0)
+{
+    <partial name="_BlogPostListPartial" model="Model.SearchResults" />
+}
+else
+{
+    <div>Nothing Found</div>
+}
+
+    

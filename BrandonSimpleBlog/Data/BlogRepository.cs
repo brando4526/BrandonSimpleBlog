@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,107 +23,221 @@ namespace BrandonSimpleBlog.Data
 
         public bool DeletePost(int postid)
         {
-            var post = _context.BlogPosts.Where<BlogPost>(i => i.PostId == postid).FirstOrDefault();
+            var post = _context.BlogPosts.Where(i => i.PostId == postid).FirstOrDefault();
             if (post!=null)
             {
                 _context.Remove(post); 
-                _context.SaveChanges();
-                return true;
+                return _context.SaveChanges()>0;
             }
-            return false;
+            return false;      
+        }
+
+
+        public IEnumerable<ArchiveEntry> GetPublishedArchiveMonths()
+        {
+            var archiveList = _context.BlogPosts
+                .Where(p => p.IsPublished)
+                .GroupBy(o => new
+                {
+                    Month = o.DatePublished.Month,
+                    Year = o.DatePublished.Year
+                })
+                .Select(g => new ArchiveEntry
+                {
+                    Month = g.Key.Month,
+                    Year = g.Key.Year,
+                    Total = g.Count()
+                })
+                .OrderByDescending(a => a.Year)
+                .ThenByDescending(a => a.Month)
+                .ToList();
+            return archiveList;
+        }
+        
+        public IEnumerable<CategoryEntry> GetCategories(bool onlyPublished)
+        {
+            if (onlyPublished)
+            {
+                var cats = _context.BlogPosts
+                    .Where(p => p.IsPublished)
+                    .Select(c => c.Categories.Split(new[] { ',' }, StringSplitOptions.None))
+                    .ToList();
+
+                var result = new List<string>();
+                foreach (var s in cats)
+                    result.AddRange(s);
+
+                var catCount = result.GroupBy(c=>c).Select(o=> new CategoryEntry { CategoryName=o.Key, Total=o.Count()}).OrderBy(s => s.CategoryName);
+                return catCount;
+            }
+            else
+            {
+                var cats = _context.BlogPosts
+                    .Select(c => c.Categories.Split(new[] { ',' }, StringSplitOptions.None))
+                    .ToList();
+
+                var result = new List<string>();
+                foreach (var s in cats)
+                    result.AddRange(s);
+
+                var catCount = result.GroupBy(c => c).Select(o => new CategoryEntry { CategoryName = o.Key, Total = o.Count() }).OrderBy(s => s.CategoryName);
+                return catCount;
+            }
             
-        }
-
-
-        public IEnumerable<string> GetArchiveMonths()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<KeyValuePair<string, int>> GetCategories()
-        {
-            throw new NotImplementedException();
         }
 
         public BlogPost GetPost(int id)
         {
-            return _context.BlogPosts.Where<BlogPost>(b => b.PostId == id).FirstOrDefault();
+            return _context.BlogPosts.Where(b => b.PostId == id).FirstOrDefault();
         }
 
         public BlogPost GetPost(string slug)
         {
-            return _context.BlogPosts.Where<BlogPost>(b => b.Slug == slug).FirstOrDefault();
+            return _context.BlogPosts.Where(b => b.Slug == slug).FirstOrDefault();
         }
 
-        public BlogResult GetAllPosts(int pageSize = 10, int page = 1)
+        public BlogResult GetPosts(bool onlyPublished, int pageSize = 10, int page = 1)
         {
-            var totalResults = _context.BlogPosts.Count();
+            if (onlyPublished)
+            {
+                var totalResults = _context.BlogPosts.Where(p => p.IsPublished).Count();
+                var blogResult = new BlogResult()
+                {
+                    CurrentPage=page,
+                    TotalPages= ((int)(totalResults / pageSize)) + ((totalResults % pageSize) > 0 ? 1 : 0),
+                    TotalReults=totalResults,
+                    Posts= _context.BlogPosts.Where(p => p.IsPublished)
+                    .OrderByDescending(o => o.DatePublished)
+                    .Select(d=>new BlogPostDescription {
+                        AuthorId=d.AuthorId,
+                        AuthorName=d.Author.FirstName+" "+d.Author.LastName,
+                        Categories=d.Categories,
+                        Excerpt=d.Excerpt,
+                        DateString= CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DatePublished.Month)+" "+d.DatePublished.Day+", "+d.DatePublished.Year,
+                        PostId=d.PostId,
+                        Slug=d.Slug,
+                        Title=d.Title,
+                        UniqueId=d.UniqueId
+                    })
+                    .Skip((page - 1) * pageSize).Take(pageSize)
+
+                };
+                return blogResult;
+            }
+            else
+            {
+                var totalResults = _context.BlogPosts.Count();
+                var blogResult = new BlogResult()
+                {
+                    CurrentPage = page,
+                    TotalPages = ((int)(totalResults / pageSize)) + ((totalResults % pageSize) > 0 ? 1 : 0),
+                    TotalReults = totalResults,
+                    Posts = _context.BlogPosts.OrderByDescending(o => o.DatePublished)
+                    .Select(d => new BlogPostDescription
+                    {
+                        AuthorId = d.AuthorId,
+                        AuthorName = d.Author.FirstName + " " + d.Author.LastName,
+                        Categories = d.Categories,
+                        Excerpt = d.Excerpt,
+                        DateString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DatePublished.Month) + " " + d.DatePublished.Day + ", " + d.DatePublished.Year,
+                        PostId = d.PostId,
+                        Slug = d.Slug,
+                        Title = d.Title,
+                        UniqueId = d.UniqueId
+                    })
+                    .Skip((page - 1) * pageSize).Take(pageSize)
+
+                };
+                return blogResult;
+            }
+            
+        }
+
+        public BlogResult GetPublishedPostsByCategory(string category, int pageSize=10, int page=1)
+        {
+            var totalResults = _context.BlogPosts.Where(p => p.IsPublished && p.Categories.ToLowerInvariant().Contains(category.ToLowerInvariant())).Count();
             var blogResult = new BlogResult()
             {
                 CurrentPage = page,
                 TotalPages = ((int)(totalResults / pageSize)) + ((totalResults % pageSize) > 0 ? 1 : 0),
                 TotalReults = totalResults,
-                Posts = _context.BlogPosts.OrderByDescending(o => o.DatePublished).Skip((page - 1) * pageSize).Take(pageSize)
+                Posts = _context.BlogPosts.Where(p => p.IsPublished && p.Categories.ToLowerInvariant().Contains(category.ToLowerInvariant())).OrderByDescending(o => o.DatePublished)
+                .Select(d => new BlogPostDescription
+                {
+                    AuthorId = d.AuthorId,
+                    AuthorName = d.Author.FirstName + " " + d.Author.LastName,
+                    Categories = d.Categories,
+                    Excerpt = d.Excerpt,
+                    DateString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DatePublished.Month) + " " + d.DatePublished.Day + ", " + d.DatePublished.Year,
+                    PostId = d.PostId,
+                    Slug = d.Slug,
+                    Title = d.Title,
+                    UniqueId = d.UniqueId
+                })
+                .Skip((page - 1) * pageSize).Take(pageSize)
 
             };
             return blogResult;
         }
 
-        public BlogResult GetPublishedPosts(int pageSize = 10, int page = 1)
+        public BlogResult GetPublishedPostsByMonth(int month, int year, int pageSize=10, int page=1)
         {
-            var totalResults = _context.BlogPosts.Where(p => p.IsPublished).Count();
-            var blogResult = new BlogResult()
-            {
-                CurrentPage=page,
-                TotalPages= ((int)(totalResults / pageSize)) + ((totalResults % pageSize) > 0 ? 1 : 0),
-                TotalReults=totalResults,
-                Posts= _context.BlogPosts.Where(p=>p.IsPublished).OrderByDescending(o => o.DatePublished).Skip((page - 1) * pageSize).Take(pageSize)
-
-            };
-            return blogResult;
-        }
-
-        public BlogResult GetPublishedPostsByCategory(string category, int pageSize, int page)
-        {
-            var totalResults = _context.BlogPosts.Where(p => p.IsPublished).Count();
-            var categoryId = _context.BlogCategories.Where(c => c.Name == category).FirstOrDefault().CategoryId;
-            var blogResult = new BlogResult()
-            {
-                CurrentPage = page,
-                TotalPages = ((int)(totalResults / pageSize)) + ((totalResults % pageSize) > 0 ? 1 : 0),
-                TotalReults = totalResults,
-                //Posts = _context.BlogPosts.Where(p => p.IsPublished && p.Categories.Contains(c=>c).).OrderByDescending(o => o.DatePublished).Skip((page - 1) * pageSize).Take(pageSize)
-
-            };
-            return blogResult;
-        }
-
-        public BlogResult GetPublishedPostsByMonth(int month, int year, int pageSize, int page)
-        {
-            var totalResults = _context.BlogPosts.Where(p => p.IsPublished).Count();
+            var totalResults = _context.BlogPosts.Where(p => p.IsPublished && p.DatePublished.Year == year && p.DatePublished.Month == month).Count();
             var blogResult = new BlogResult()
             {
                 CurrentPage = page,
                 TotalPages = ((int)(totalResults / pageSize)) + ((totalResults % pageSize) > 0 ? 1 : 0),
                 TotalReults = totalResults,
-                Posts = _context.BlogPosts.Where(p => p.IsPublished && p.DatePublished.Year==year && p.DatePublished.Month==month).OrderByDescending(o => o.DatePublished).Skip((page - 1) * pageSize).Take(pageSize)
+                Posts = _context.BlogPosts.Where(p => p.IsPublished && p.DatePublished.Year==year && p.DatePublished.Month==month).OrderByDescending(o => o.DatePublished)
+                .Select(d => new BlogPostDescription
+                {
+                    AuthorId = d.AuthorId,
+                    AuthorName = d.Author.FirstName + " " + d.Author.LastName,
+                    Categories = d.Categories,
+                    Excerpt = d.Excerpt,
+                    DateString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DatePublished.Month) + " " + d.DatePublished.Day + ", " + d.DatePublished.Year,
+                    PostId = d.PostId,
+                    Slug = d.Slug,
+                    Title = d.Title,
+                    UniqueId = d.UniqueId
+                })
+                .Skip((page - 1) * pageSize).Take(pageSize)
 
             };
             return blogResult;
         }
 
-        public BlogResult GetPublishedPostsByTerm(string term, int pageSize, int page)
+        public BlogResult GetPublishedPostsByTerm(string term, int pageSize=10, int page=1)
         {
-            var totalResults = _context.BlogPosts.Where(p => p.IsPublished).Count();
+            var totalResults = _context.BlogPosts.Where(p => p.IsPublished && p.Title.ToLowerInvariant().Contains(term.ToLowerInvariant())).Count();
             var blogResult = new BlogResult()
             {
                 CurrentPage = page,
                 TotalPages = ((int)(totalResults / pageSize)) + ((totalResults % pageSize) > 0 ? 1 : 0),
                 TotalReults = totalResults,
-                Posts = _context.BlogPosts.Where(p => p.IsPublished && p.Title.ToLowerInvariant().Contains(term.ToLowerInvariant())).OrderByDescending(o => o.DatePublished).Skip((page - 1) * pageSize).Take(pageSize)
+                Posts = _context.BlogPosts.Where(p => p.IsPublished && p.Title.ToLowerInvariant().Contains(term.ToLowerInvariant())).OrderByDescending(o => o.DatePublished)
+                .Select(d => new BlogPostDescription
+                {
+                    AuthorId = d.AuthorId,
+                    AuthorName = d.Author.FirstName + " " + d.Author.LastName,
+                    Categories = d.Categories,
+                    Excerpt = d.Excerpt,
+                    DateString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DatePublished.Month) + " " + d.DatePublished.Day + ", " + d.DatePublished.Year,
+                    PostId = d.PostId,
+                    Slug = d.Slug,
+                    Title = d.Title,
+                    UniqueId = d.UniqueId
+                })
+                .Skip((page - 1) * pageSize).Take(pageSize)
 
             };
             return blogResult;
+        }
+
+        public IEnumerable<BlogPost> GetFeaturedPosts()
+        {
+            var featuredPosts = _context.BlogPosts.Where(f => f.IsFeatured).ToList();
+            return featuredPosts;
         }
     }
 }

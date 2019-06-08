@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrandonSimpleBlog.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190509032216_AddBlogTables")]
+    [Migration("20190605234138_AddBlogTables")]
     partial class AddBlogTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -78,38 +78,6 @@ namespace BrandonSimpleBlog.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("BrandonSimpleBlog.Data.BlogCategory", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("CategoryId");
-
-                    b.ToTable("BlogCategories");
-                });
-
-            modelBuilder.Entity("BrandonSimpleBlog.Data.BlogCategoryAssignment", b =>
-                {
-                    b.Property<int>("BlogCategoryAssignmentId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CategoryId");
-
-                    b.Property<int>("PostId");
-
-                    b.HasKey("BlogCategoryAssignmentId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("BlogCategoryAssignments");
-                });
-
             modelBuilder.Entity("BrandonSimpleBlog.Data.BlogPost", b =>
                 {
                     b.Property<int>("PostId")
@@ -118,21 +86,25 @@ namespace BrandonSimpleBlog.Data.Migrations
 
                     b.Property<string>("AuthorId");
 
+                    b.Property<string>("Categories");
+
                     b.Property<string>("Content");
 
                     b.Property<DateTime>("DatePublished");
 
                     b.Property<string>("Excerpt");
 
-                    b.Property<string>("ImageURL");
+                    b.Property<bool>("IsFeatured");
 
                     b.Property<bool>("IsPublished");
 
-                    b.Property<int>("MyProperty");
+                    b.Property<string>("Slug")
+                        .IsRequired();
 
-                    b.Property<string>("Slug");
+                    b.Property<string>("Title")
+                        .IsRequired();
 
-                    b.Property<string>("Title");
+                    b.Property<string>("UniqueId");
 
                     b.HasKey("PostId");
 
@@ -249,19 +221,6 @@ namespace BrandonSimpleBlog.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("BrandonSimpleBlog.Data.BlogCategoryAssignment", b =>
-                {
-                    b.HasOne("BrandonSimpleBlog.Data.BlogCategory", "Category")
-                        .WithMany("BlogPosts")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BrandonSimpleBlog.Data.BlogPost", "Post")
-                        .WithMany("Categories")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BrandonSimpleBlog.Data.BlogPost", b =>

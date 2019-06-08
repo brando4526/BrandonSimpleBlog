@@ -53,33 +53,21 @@ namespace BrandonSimpleBlog.Data.Migrations
                 oldMaxLength: 128);
 
             migrationBuilder.CreateTable(
-                name: "BlogCategories",
-                columns: table => new
-                {
-                    CategoryId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogCategories", x => x.CategoryId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BlogPosts",
                 columns: table => new
                 {
                     PostId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AuthorId = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: false),
                     Content = table.Column<string>(nullable: true),
                     Excerpt = table.Column<string>(nullable: true),
-                    ImageURL = table.Column<string>(nullable: true),
                     DatePublished = table.Column<DateTime>(nullable: false),
-                    MyProperty = table.Column<int>(nullable: false),
                     IsPublished = table.Column<bool>(nullable: false),
-                    Slug = table.Column<string>(nullable: true)
+                    Slug = table.Column<string>(nullable: false),
+                    Categories = table.Column<string>(nullable: true),
+                    UniqueId = table.Column<string>(nullable: true),
+                    IsFeatured = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,42 +80,6 @@ namespace BrandonSimpleBlog.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "BlogCategoryAssignments",
-                columns: table => new
-                {
-                    BlogCategoryAssignmentId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PostId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogCategoryAssignments", x => x.BlogCategoryAssignmentId);
-                    table.ForeignKey(
-                        name: "FK_BlogCategoryAssignments_BlogCategories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "BlogCategories",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BlogCategoryAssignments_BlogPosts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "BlogPosts",
-                        principalColumn: "PostId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlogCategoryAssignments_CategoryId",
-                table: "BlogCategoryAssignments",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BlogCategoryAssignments_PostId",
-                table: "BlogCategoryAssignments",
-                column: "PostId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_BlogPosts_AuthorId",
                 table: "BlogPosts",
@@ -136,12 +88,6 @@ namespace BrandonSimpleBlog.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "BlogCategoryAssignments");
-
-            migrationBuilder.DropTable(
-                name: "BlogCategories");
-
             migrationBuilder.DropTable(
                 name: "BlogPosts");
 

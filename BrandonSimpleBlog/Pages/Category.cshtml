@@ -1,0 +1,15 @@
+﻿@page "{categoryName}"
+@model BrandonSimpleBlog.Pages.CategoryModel
+@{
+    ViewData["Title"] = Model.CategoryName + " posts";
+}
+
+<h1>Posts belonging to "@Model.CategoryName" category</h1>
+@if (Model.CategoryResults != null && Model.CategoryResults.TotalReults > 0)
+{
+    <partial name="_BlogPostListPartial" model="Model.CategoryResults" />
+}
+else
+{
+    <div>Nothing Found belonging to this category</div>
+}

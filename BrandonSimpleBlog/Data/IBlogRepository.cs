@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace BrandonSimpleBlog.Data
 {
-    interface IBlogRepository
+    public interface IBlogRepository
     {
-        BlogResult GetAllPosts(int pageSize = 10, int page = 1);
-        BlogResult GetPublishedPosts(int pageSize=10, int page=1);
-        BlogResult GetPublishedPostsByTerm(string term, int pageSize, int page);
-        BlogResult GetPublishedPostsByCategory(string category, int pageSize, int page);
-        BlogResult GetPublishedPostsByMonth(int month, int year, int pageSize, int page);
-        IEnumerable<string> GetArchiveMonths();
+        BlogResult GetPosts(bool onlyPublished, int pageSize = 10, int page = 1);
+        BlogResult GetPublishedPostsByTerm(string term, int pageSize = 10, int page = 1);
+        BlogResult GetPublishedPostsByCategory(string category, int pageSize = 10, int page = 1);
+        BlogResult GetPublishedPostsByMonth(int month, int year, int pageSize = 10, int page = 1);
+        IEnumerable<BlogPost> GetFeaturedPosts();
+        IEnumerable<ArchiveEntry> GetPublishedArchiveMonths();
         BlogPost GetPost(int id);
         BlogPost GetPost(string slug);
         bool AddPost(BlogPost post);
         bool DeletePost(int postid);
 
-        IEnumerable<KeyValuePair<string,int>> GetCategories();
+        IEnumerable<CategoryEntry> GetCategories(bool onlyPublished);
     }
 }

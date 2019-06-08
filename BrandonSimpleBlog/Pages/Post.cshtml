@@ -1,0 +1,9 @@
+﻿@page "{id:int}/{slug}"
+@model BrandonSimpleBlog.Pages.PostModel
+@{
+    ViewData["Title"] = Model.Post.Title;
+    
+}
+
+<h1>@Model.Post.Title</h1>
+
