@@ -1,18 +1,23 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BrandonSimpleBlog.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace BrandonSimpleBlog.Data
 {
-    public class DbInitializer
+    public class AppDataInitializer
     {
         private ApplicationDbContext _context;
         private UserManager<ApplicationUser> _userMgr;
+        private IMediaStorageService _mediaStorage;
 
-        public DbInitializer(ApplicationDbContext context, UserManager<ApplicationUser> userMgr)
+        public AppDataInitializer(ApplicationDbContext context, UserManager<ApplicationUser> userMgr, IMediaStorageService mediaStorage)
         {
             _context = context;
             _userMgr = userMgr;
+            _mediaStorage = mediaStorage;
         }
 
         public void SeedData()
@@ -94,6 +99,34 @@ namespace BrandonSimpleBlog.Data
             _context.BlogPosts.Add(blogPostSample2);
             _context.BlogPosts.Add(blogPostSample3);
             _context.SaveChanges();
+
+
+            //seed placeholder images for blog posts
+            IFileProvider physicalProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
+            IDirectoryContents contents = physicalProvider.GetDirectoryContents("Data/SeedMedia/BlogPost");
+            foreach (var file in contents)
+            {
+                MemoryStream ms = new MemoryStream();
+                file.CreateReadStream().CopyTo(ms);
+                _mediaStorage.SaveImageToStorage(ms.ToArray(), "post/" + file.Name);
+            }
+            //seed placeholder images for avatar images
+            contents = physicalProvider.GetDirectoryContents("Data/SeedMedia/Avatar");
+            foreach (var file in contents)
+            {
+                MemoryStream ms = new MemoryStream();
+                file.CreateReadStream().CopyTo(ms);
+                _mediaStorage.SaveImageToStorage(ms.ToArray(), "avatar/" + file.Name);
+            }
+            //seed placeholder images for profile images
+            contents = physicalProvider.GetDirectoryContents("Data/SeedMedia/Profile");
+            foreach (var file in contents)
+            {
+                MemoryStream ms = new MemoryStream();
+                file.CreateReadStream().CopyTo(ms);
+                _mediaStorage.SaveImageToStorage(ms.ToArray(), "profile/" + file.Name);
+            }
+
 
         }
     }
