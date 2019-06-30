@@ -1,15 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BrandonSimpleBlog.Data
 {
     public class BlogRepository : IBlogRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         public BlogRepository(ApplicationDbContext context)
         {
             _context = context;
@@ -117,7 +115,10 @@ namespace BrandonSimpleBlog.Data
                         PostId=d.PostId,
                         Slug=d.Slug,
                         Title=d.Title,
-                        UniqueId=d.UniqueId
+                        UniqueId=d.UniqueId,
+                        IsPublished=d.IsPublished,
+                        IsFeatured=d.IsFeatured
+                        
                     })
                     .Skip((page - 1) * pageSize).Take(pageSize)
 
@@ -143,7 +144,9 @@ namespace BrandonSimpleBlog.Data
                         PostId = d.PostId,
                         Slug = d.Slug,
                         Title = d.Title,
-                        UniqueId = d.UniqueId
+                        UniqueId = d.UniqueId,
+                        IsPublished=d.IsPublished,
+                        IsFeatured = d.IsFeatured
                     })
                     .Skip((page - 1) * pageSize).Take(pageSize)
 
@@ -151,6 +154,69 @@ namespace BrandonSimpleBlog.Data
                 return blogResult;
             }
             
+        }
+
+        public BlogResult GetPostsByAuthor(string authorId, bool onlyPublished, int pageSize = 10, int page = 1)
+        {
+            if (onlyPublished)
+            {
+                var totalResults = _context.BlogPosts.Where(p => p.IsPublished && p.AuthorId == authorId).Count();
+                var blogResult = new BlogResult()
+                {
+                    CurrentPage = page,
+                    TotalPages = ((int)(totalResults / pageSize)) + ((totalResults % pageSize) > 0 ? 1 : 0),
+                    TotalReults = totalResults,
+                    Posts = _context.BlogPosts.Where(p => p.IsPublished && p.AuthorId==authorId)
+                    .OrderByDescending(o => o.DatePublished)
+                    .Select(d => new BlogPostDescription
+                    {
+                        AuthorId = d.AuthorId,
+                        AuthorName = d.Author.FirstName + " " + d.Author.LastName,
+                        Categories = d.Categories,
+                        Excerpt = d.Excerpt,
+                        DateString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DatePublished.Month) + " " + d.DatePublished.Day + ", " + d.DatePublished.Year,
+                        PostId = d.PostId,
+                        Slug = d.Slug,
+                        Title = d.Title,
+                        UniqueId = d.UniqueId,
+                        IsPublished=d.IsPublished,
+                        IsFeatured = d.IsFeatured
+                    })
+                    .Skip((page - 1) * pageSize).Take(pageSize)
+
+                };
+                return blogResult;
+            }
+            else
+            {
+
+                var totalResults = _context.BlogPosts.Where(p=>p.AuthorId==authorId).Count();
+                var blogResult = new BlogResult()
+                {
+                    CurrentPage = page,
+                    TotalPages = ((int)(totalResults / pageSize)) + ((totalResults % pageSize) > 0 ? 1 : 0),
+                    TotalReults = totalResults,
+                    Posts = _context.BlogPosts.Where(p => p.AuthorId == authorId)
+                    .OrderByDescending(o => o.DatePublished)
+                    .Select(d => new BlogPostDescription
+                    {
+                        AuthorId = d.AuthorId,
+                        AuthorName = d.Author.FirstName + " " + d.Author.LastName,
+                        Categories = d.Categories,
+                        Excerpt = d.Excerpt,
+                        DateString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DatePublished.Month) + " " + d.DatePublished.Day + ", " + d.DatePublished.Year,
+                        PostId = d.PostId,
+                        Slug = d.Slug,
+                        Title = d.Title,
+                        UniqueId = d.UniqueId,
+                        IsPublished=d.IsPublished,
+                        IsFeatured = d.IsFeatured
+                    })
+                    .Skip((page - 1) * pageSize).Take(pageSize)
+
+                };
+                return blogResult;
+            }
         }
 
         public BlogResult GetPublishedPostsByCategory(string category, int pageSize=10, int page=1)
@@ -172,7 +238,9 @@ namespace BrandonSimpleBlog.Data
                     PostId = d.PostId,
                     Slug = d.Slug,
                     Title = d.Title,
-                    UniqueId = d.UniqueId
+                    UniqueId = d.UniqueId,
+                    IsPublished=d.IsPublished,
+                    IsFeatured = d.IsFeatured
                 })
                 .Skip((page - 1) * pageSize).Take(pageSize)
 
@@ -199,7 +267,9 @@ namespace BrandonSimpleBlog.Data
                     PostId = d.PostId,
                     Slug = d.Slug,
                     Title = d.Title,
-                    UniqueId = d.UniqueId
+                    UniqueId = d.UniqueId,
+                    IsPublished=d.IsPublished,
+                    IsFeatured = d.IsFeatured
                 })
                 .Skip((page - 1) * pageSize).Take(pageSize)
 
@@ -226,7 +296,9 @@ namespace BrandonSimpleBlog.Data
                     PostId = d.PostId,
                     Slug = d.Slug,
                     Title = d.Title,
-                    UniqueId = d.UniqueId
+                    UniqueId = d.UniqueId,
+                    IsPublished=d.IsPublished,
+                    IsFeatured = d.IsFeatured
                 })
                 .Skip((page - 1) * pageSize).Take(pageSize)
 
@@ -234,10 +306,27 @@ namespace BrandonSimpleBlog.Data
             return blogResult;
         }
 
-        public IEnumerable<BlogPost> GetFeaturedPosts()
+        public IEnumerable<BlogPostDescription> GetFeaturedPosts()
         {
-            var featuredPosts = _context.BlogPosts.Where(f => f.IsFeatured).ToList();
+            var featuredPosts = _context.BlogPosts.Where(f => f.IsFeatured)
+                .Select(d => new BlogPostDescription
+                {
+                    AuthorId = d.AuthorId,
+                    AuthorName = d.Author.FirstName + " " + d.Author.LastName,
+                    Categories = d.Categories,
+                    Excerpt = d.Excerpt,
+                    DateString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DatePublished.Month) + " " + d.DatePublished.Day + ", " + d.DatePublished.Year,
+                    PostId = d.PostId,
+                    Slug = d.Slug,
+                    Title = d.Title,
+                    UniqueId = d.UniqueId,
+                    IsPublished = d.IsPublished,
+                    IsFeatured = d.IsFeatured
+                })
+                .ToList();
             return featuredPosts;
         }
+
+        
     }
 }

@@ -1,12 +1,16 @@
-﻿@page
+﻿@page "{year}/{month}"
 @model BrandonSimpleBlog.Pages.ArchiveModel
 @{
     ViewData["Title"] = "Archive";
 }
 
-    <h1>Blog Archive</h1>
+<h1>Blog Archive for @Model.Month @Model.Year</h1>
 
-@foreach (var month in Model.ArchiveMonths)
+@if (Model.MonthResults != null && Model.MonthResults.TotalReults > 0)
 {
-<div>@month.Year @month.MonthName</div>
+    <partial name="_BlogPostListPartial" model="Model.MonthResults" />
+}
+else
+{
+    <div>No blog posts found for this month.</div>
 }

@@ -63,6 +63,7 @@ namespace BrandonSimpleBlog.Data.Migrations
                     Content = table.Column<string>(nullable: true),
                     Excerpt = table.Column<string>(nullable: true),
                     DatePublished = table.Column<DateTime>(nullable: false),
+                    LastUpdated = table.Column<DateTime>(nullable: false),
                     IsPublished = table.Column<bool>(nullable: false),
                     Slug = table.Column<string>(nullable: false),
                     Categories = table.Column<string>(nullable: true),

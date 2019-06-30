@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrandonSimpleBlog.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190605234138_AddBlogTables")]
+    [Migration("20190621005634_AddBlogTables")]
     partial class AddBlogTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,6 +97,8 @@ namespace BrandonSimpleBlog.Data.Migrations
                     b.Property<bool>("IsFeatured");
 
                     b.Property<bool>("IsPublished");
+
+                    b.Property<DateTime>("LastUpdated");
 
                     b.Property<string>("Slug")
                         .IsRequired();

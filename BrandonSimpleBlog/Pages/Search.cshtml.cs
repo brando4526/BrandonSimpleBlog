@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BrandonSimpleBlog.Data;
+﻿using BrandonSimpleBlog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -18,13 +14,23 @@ namespace BrandonSimpleBlog.Pages
         }
 
         [BindProperty(SupportsGet = true)]
-        public string term { get; set; }
+        public string Term { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int Resultpage { get; set; }
 
         public BlogResult SearchResults { get; set; }
 
         public void OnGet()
         {
-            SearchResults = _blogRepo.GetPublishedPostsByTerm(term);
+            if (Resultpage > 0)
+            {
+                SearchResults = _blogRepo.GetPublishedPostsByTerm(Term, 10, Resultpage);
+            }
+            else
+            {
+                SearchResults = _blogRepo.GetPublishedPostsByTerm(Term);
+            }
         }
     }
 }

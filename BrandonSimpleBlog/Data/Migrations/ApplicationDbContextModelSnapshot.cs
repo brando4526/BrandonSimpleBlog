@@ -96,6 +96,8 @@ namespace BrandonSimpleBlog.Data.Migrations
 
                     b.Property<bool>("IsPublished");
 
+                    b.Property<DateTime>("LastUpdated");
+
                     b.Property<string>("Slug")
                         .IsRequired();
 

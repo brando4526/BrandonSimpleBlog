@@ -1,6 +1,8 @@
 ﻿using BrandonSimpleBlog.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BrandonSimpleBlog.Pages
 {
@@ -13,12 +15,16 @@ namespace BrandonSimpleBlog.Pages
             _blogRepo = blogRepository;
         }
 
-        public IEnumerable<ArchiveEntry> ArchiveMonths { get; set; }
-
-        public void OnGet()
+        public BlogResult MonthResults { get; set; }
+        public int Year { get; set; }
+        public string Month { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public int Resultpage { get; set; }
+        public void OnGet(int year, int month)
         {
-            ArchiveMonths = _blogRepo.GetPublishedArchiveMonths();
-            
+            MonthResults = _blogRepo.GetPublishedPostsByMonth(month,year);
+            Year = year;
+            Month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
         }
     }
 }

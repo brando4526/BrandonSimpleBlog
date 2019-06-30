@@ -98,6 +98,25 @@ namespace BrandonSimpleBlog.Data
             _context.BlogPosts.Add(blogPostSample1);
             _context.BlogPosts.Add(blogPostSample2);
             _context.BlogPosts.Add(blogPostSample3);
+
+
+            for(int i = 5; i < 88;i++)
+            {
+                var blogPostSampleloop = new BlogPost()
+                {
+                    AuthorId = user.Id,
+                    DatePublished = DateTime.Now.AddDays(i),
+                    Title = "Sample Blog "+i,
+                    Excerpt = "This is a third sample blog post only meant for initial database creation.",
+                    Content = "This is the content of this third sample blog post. HTML content will be placed here. The quick Brown Fox jumped yada yada yada.",
+                    IsPublished = true,
+                    Categories = "Sample,Sample2",
+                    Slug = "sample-post-"+i,
+                    IsFeatured = false
+                };
+                _context.BlogPosts.Add(blogPostSampleloop);
+            }
+
             _context.SaveChanges();
 
 
