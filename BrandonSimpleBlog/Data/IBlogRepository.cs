@@ -15,6 +15,7 @@ namespace BrandonSimpleBlog.Data
         BlogPost GetPost(int id);
         BlogPost GetPost(string slug);
         bool AddPost(BlogPost post);
+        bool UpdatePost(BlogPost post);
         bool DeletePost(int postid);
 
         IEnumerable<CategoryEntry> GetCategories(bool onlyPublished);

@@ -6,25 +6,24 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Date</th>
                     <th>Author</th>
+                    <th>Date Created</th>
                     <th>Published</th>
+                    <th>Featured</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var post in Model.Posts)
                 {
                 <tr>
-                    <td> @post.Title </td>
-                    <td> @post.DateString </td>
+                    <td> <a href="/Admin/EditBlogPost?id=@post.PostId">@post.Title </a></td>
                     <td> @post.AuthorName </td>
+                    <td> @post.DateString </td>
                     <td>
-                        <div class="custom-control custom-checkbox mb-3">
-                            <input type="checkbox" class="custom-control-input" id="customControlValidation1" required>
-                            <label class="custom-control-label" for="customControlValidation1"></label>
-                            <div class="invalid-feedback"></div>
-                        </div>
+                        <input type="checkbox" checked="@post.IsPublished"/>
+                        
                     </td>
+                    <td><input type="checkbox" checked="@post.IsFeatured" /></td>
                 </tr>
                 }               
             </tbody>

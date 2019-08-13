@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrandonSimpleBlog.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190621005634_AddBlogTables")]
+    [Migration("20190801081046_AddBlogTables")]
     partial class AddBlogTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -90,9 +90,13 @@ namespace BrandonSimpleBlog.Data.Migrations
 
                     b.Property<string>("Content");
 
+                    b.Property<DateTime>("DateCreated");
+
                     b.Property<DateTime>("DatePublished");
 
                     b.Property<string>("Excerpt");
+
+                    b.Property<bool>("HasImage");
 
                     b.Property<bool>("IsFeatured");
 

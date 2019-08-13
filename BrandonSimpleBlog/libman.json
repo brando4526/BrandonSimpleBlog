@@ -14,6 +14,16 @@
     {
       "library": "OwlCarousel2@2.3.4",
       "destination": "wwwroot/lib/OwlCarousel2"
+    },
+    {
+      "provider": "unpkg",
+      "library": "@yaireo/tagify@2.23.1",
+      "destination": "wwwroot/lib/tagify"
+    },
+    {
+      "provider": "unpkg",
+      "library": "cropperjs2@2.0.0",
+      "destination": "wwwroot/lib/cropperjs"
     }
   ]
 }

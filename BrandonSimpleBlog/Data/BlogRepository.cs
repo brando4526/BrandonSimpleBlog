@@ -19,6 +19,12 @@ namespace BrandonSimpleBlog.Data
             return _context.SaveChanges() > 0;
         }
 
+        public bool UpdatePost(BlogPost post)
+        {
+            _context.Update(post);
+            return _context.SaveChanges() > 0;
+        }
+
         public bool DeletePost(int postid)
         {
             var post = _context.BlogPosts.Where(i => i.PostId == postid).FirstOrDefault();
@@ -57,7 +63,7 @@ namespace BrandonSimpleBlog.Data
             if (onlyPublished)
             {
                 var cats = _context.BlogPosts
-                    .Where(p => p.IsPublished)
+                    .Where(p => p.IsPublished && p.Categories != null)
                     .Select(c => c.Categories.Split(new[] { ',' }, StringSplitOptions.None))
                     .ToList();
 
@@ -71,6 +77,7 @@ namespace BrandonSimpleBlog.Data
             else
             {
                 var cats = _context.BlogPosts
+                    .Where(p=>p.Categories!=null)
                     .Select(c => c.Categories.Split(new[] { ',' }, StringSplitOptions.None))
                     .ToList();
 
@@ -133,14 +140,14 @@ namespace BrandonSimpleBlog.Data
                     CurrentPage = page,
                     TotalPages = ((int)(totalResults / pageSize)) + ((totalResults % pageSize) > 0 ? 1 : 0),
                     TotalReults = totalResults,
-                    Posts = _context.BlogPosts.OrderByDescending(o => o.DatePublished)
+                    Posts = _context.BlogPosts.OrderByDescending(o => o.DateCreated)
                     .Select(d => new BlogPostDescription
                     {
                         AuthorId = d.AuthorId,
                         AuthorName = d.Author.FirstName + " " + d.Author.LastName,
                         Categories = d.Categories,
                         Excerpt = d.Excerpt,
-                        DateString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DatePublished.Month) + " " + d.DatePublished.Day + ", " + d.DatePublished.Year,
+                        DateString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DateCreated.Month) + " " + d.DateCreated.Day + ", " + d.DateCreated.Year,
                         PostId = d.PostId,
                         Slug = d.Slug,
                         Title = d.Title,
@@ -197,14 +204,14 @@ namespace BrandonSimpleBlog.Data
                     TotalPages = ((int)(totalResults / pageSize)) + ((totalResults % pageSize) > 0 ? 1 : 0),
                     TotalReults = totalResults,
                     Posts = _context.BlogPosts.Where(p => p.AuthorId == authorId)
-                    .OrderByDescending(o => o.DatePublished)
+                    .OrderByDescending(o => o.DateCreated)
                     .Select(d => new BlogPostDescription
                     {
                         AuthorId = d.AuthorId,
                         AuthorName = d.Author.FirstName + " " + d.Author.LastName,
                         Categories = d.Categories,
                         Excerpt = d.Excerpt,
-                        DateString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DatePublished.Month) + " " + d.DatePublished.Day + ", " + d.DatePublished.Year,
+                        DateString = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(d.DateCreated.Month) + " " + d.DateCreated.Day + ", " + d.DateCreated.Year,
                         PostId = d.PostId,
                         Slug = d.Slug,
                         Title = d.Title,

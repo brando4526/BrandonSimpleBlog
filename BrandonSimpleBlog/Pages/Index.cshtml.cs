@@ -24,16 +24,8 @@ namespace BrandonSimpleBlog.Pages
         {
             FeaturedPosts = _blogRepo.GetFeaturedPosts();
             Categories = _blogRepo.GetCategories(true);
-            if (Resultpage>0)
-            {
-                Posts = _blogRepo.GetPosts(true,10,Resultpage);
-            }
-            else
-            {
-                Posts = _blogRepo.GetPosts(true);
-            }
-            
-            
+            Posts = _blogRepo.GetPosts(true,10, Resultpage > 0 ? Resultpage : 1);
+                 
         }
     }
 }

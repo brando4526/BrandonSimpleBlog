@@ -1,4 +1,151 @@
-﻿@page
+﻿@page  "{id:int?}"
 @model BrandonSimpleBlog.Areas.Admin.Pages.EditBlogPostModel
 @{
-}
+        var catstring = "";
+        foreach (var cat in Model.CategoryOptions)
+        {
+            catstring+='"'+cat + '"' + ",";
+        }
+        
+    }
+
+<div class="row">
+
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-body">
+                <form enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input asp-for="Input.Id" type="hidden" />
+                    <div class="form-group">
+                        <label asp-for="Input.Title"></label>
+                        <input asp-for="Input.Title" class="form-control" />
+                        <span asp-validation-for="Input.Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Excerpt"></label>
+                        <input asp-for="Input.Excerpt" class="form-control" />
+                        <span asp-validation-for="Input.Excerpt" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Content"></label>
+                        <textarea asp-for="Input.Content" type="text" id="summernote" class="form-control"></textarea>
+                        <span asp-validation-for="Input.Content" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Categories"></label>
+                        <input id='tags'  class="form-control" placeholder='Enter categories' value="@Model.Input.Categories">
+                        <input id='hiddenTags' asp-for="Input.Categories" type="hidden" />
+                        @*<input asp-for="Input.Categories" type="text" class="form-control" />*@
+                        <span asp-validation-for="Input.Content" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Image"></label>
+                        <input asp-for="Input.Image" type="file" accept=".png" class="form-control-file" />
+                        <img src="@Model.PostImageURL" alt="current post image" />
+                        <span asp-validation-for="Input.Image" class="text-danger"></span>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success"><span class="fas fa-check"></span> Save</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $('#summernote').summernote({
+            placeholder: 'Enter blog post content here',
+            tabsize: 2,
+            height: 300
+        });
+    </script>
+    <script>
+        var input = document.querySelector('input[id=tags]'),
+            // init Tagify script on the above inputs
+            tagify = new Tagify(input, {
+                whitelist: [@Html.Raw(catstring)],
+                dropdown: {
+                    enabled: 1,
+                },
+                duplicates: false,
+                delimiters: ",",
+            });
+       
+        // "remove all tags" button event listener
+        //document.querySelector('.tags--removeAllBtn')
+        //    .addEventListener('click', tagify.removeAllTags.bind(tagify));
+
+    //Chainable event listeners
+    tagify.on('add', onAddTag)
+          .on('remove', onRemoveTag)
+          .on('input', onInput)
+          .on('edit', onTagEdit)
+          .on('invalid', onInvalidTag)
+          .on('click', onTagClick)
+          .on('dropdown:show', onDropdownShow)
+          .on('dropdown:hide', onDropdownHide)
+
+
+    function parseJsonList(list) {
+        var parsedList = JSON.parse(list);
+        var valueArray=[];
+        for (var i in parsedList) {
+            var obj = parsedList[i];
+            valueArray.push(obj.value);
+        }
+        return valueArray.join();
+    }
+    // tag added callback
+    function onAddTag(e){
+        console.log("onAddTag: ", e.detail);
+        console.log("original input value: ", input.value);
+        //tagify.off('add', onAddTag); // exmaple of removing a custom Tagify event
+        $('#hiddenTags').val( parseJsonList(input.value));
+        //alert(parseJsonList(input.value));
+    }
+
+    // tag remvoed callback
+    function onRemoveTag(e){
+        console.log(e.detail);
+        console.log("tagify instance value:", tagify.value);
+        $('#hiddenTags').val( parseJsonList(input.value));
+    }
+
+    // on character(s) added/removed (user is typing/deleting)
+    function onInput(e){
+        console.log(e.detail);
+        console.log("onInput: ", e.detail);  
+    }
+
+    function onTagEdit(e){
+        console.log("onTagEdit: ", e.detail);  
+    }
+
+    // invalid tag added callback
+    function onInvalidTag(e){
+        console.log("onInvalidTag: ", e.detail);
+    }
+
+    // invalid tag added callback
+    function onTagClick(e){
+        console.log(e.detail);
+        console.log("onTagClick: ", e.detail);
+    }
+
+    function onDropdownShow(e){
+        console.log("onDropdownShow: ", e.detail)
+    }
+
+    function onDropdownHide(e){
+        console.log("onDropdownHide: ", e.detail)
+    }
+        </script>
+    }

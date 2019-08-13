@@ -60,6 +60,7 @@ namespace BrandonSimpleBlog.Data
             {
                 AuthorId=user.Id,
                 DatePublished = DateTime.Now,
+                DateCreated=DateTime.Now,
                 Title = "Sample Blog 1",
                 Excerpt="This is a sample blog post only meant for initial database creation.",
                 Content="This is the content of this sample blog post. HTML content will be placed here. The quick Brown Fox jumped yada yada yada.",
@@ -73,6 +74,7 @@ namespace BrandonSimpleBlog.Data
             {
                 AuthorId = user.Id,
                 DatePublished = DateTime.Now.AddDays(1),
+                DateCreated=DateTime.Now.AddDays(1),
                 Title = "Sample Blog 2",
                 Excerpt = "This is a second sample blog post only meant for initial database creation.",
                 Content = "This is the content of this second sample blog post. HTML content will be placed here. The quick Brown Fox jumped yada yada yada.",
@@ -86,6 +88,7 @@ namespace BrandonSimpleBlog.Data
             {
                 AuthorId = user.Id,
                 DatePublished = DateTime.Now.AddDays(2),
+                DateCreated=DateTime.Now.AddDays(2),
                 Title = "Sample Blog 3",
                 Excerpt = "This is a third sample blog post only meant for initial database creation.",
                 Content = "This is the content of this third sample blog post. HTML content will be placed here. The quick Brown Fox jumped yada yada yada.",
@@ -106,6 +109,7 @@ namespace BrandonSimpleBlog.Data
                 {
                     AuthorId = user.Id,
                     DatePublished = DateTime.Now.AddDays(i),
+                    DateCreated= DateTime.Now.AddDays(i),
                     Title = "Sample Blog "+i,
                     Excerpt = "This is a third sample blog post only meant for initial database creation.",
                     Content = "This is the content of this third sample blog post. HTML content will be placed here. The quick Brown Fox jumped yada yada yada.",

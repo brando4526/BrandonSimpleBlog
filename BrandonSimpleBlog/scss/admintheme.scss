@@ -14,12 +14,12 @@ $warning: #ffc107;
 $light: #f8f9fa;
 $dark: #343a40;
 //$border-width: 0;
-$btn-border-radius: 0;
-$input-border-radius: 0;
-$card-border-radius: 0;
+/*$btn-border-radius: 0;
 $card-inner-border-radius:0;
 $dropdown-border-width:0;
-$dropdown-border-radius:0;
+$dropdown-border-radius:0;*/
+$input-border-radius: 0;
+$card-border-radius: 0;
 $dropdown-font-size: $font-size-base*.8;
 //$input-bg: #007bff;
 //$input-border-width:1px;
@@ -44,9 +44,13 @@ $dropdown-font-size: $font-size-base*.8;
     padding-top:50px;
 }
 
-.card, card-header, card-body{
+/*.card, card-header, card-body{
     border:none;
     
+}*/
+
+.card{
+    margin:1.5rem;
 }
 
 .card-login {
@@ -76,13 +80,17 @@ h1, h2, h3, h4, h5, h6, .nav-item > a, .dropdown-menu > a, .btn-read-continue {
     text-transform:uppercase;
 }
 
+.nav-item{
+    padding:5px;
+}
+
 .dropdown-menu {
     border: none;
     -webkit-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.15);
     -moz-box-shadow: 0 7px 7px rgba(0, 0, 0, 0.15);
     box-shadow: 0 7px 7px rgba(0, 0, 0, 0.15);
 }
-.nav-item > a {
+/*.nav-item > a {
     border-bottom: 3px solid rgba(0,0,0,0);
     -webkit-transition: border 500ms ease;
     -moz-transition: border 500ms ease;
@@ -93,7 +101,7 @@ h1, h2, h3, h4, h5, h6, .nav-item > a, .dropdown-menu > a, .btn-read-continue {
 
 .nav-item > a:hover {
     border-bottom: 3px solid $secondary;
-}
+}*/
 
 .btn-read-continue {
     font-size: $dropdown-font-size;

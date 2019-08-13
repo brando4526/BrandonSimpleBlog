@@ -15,9 +15,10 @@ namespace BrandonSimpleBlog.Data
         public string Title { get; set; }
         public string Content { get; set; }
         public string Excerpt { get; set; }
+        public DateTime DateCreated { get; set; }
         public DateTime DatePublished { get; set; }
         public DateTime LastUpdated { get; set; }
-
+        public bool HasImage { get; set; }
         public bool IsPublished { get; set; }
         [Required]
         public string Slug { get; set; }
