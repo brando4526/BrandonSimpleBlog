@@ -70,7 +70,8 @@ namespace BrandonSimpleBlog.Data.Migrations
                     Slug = table.Column<string>(nullable: false),
                     Categories = table.Column<string>(nullable: true),
                     UniqueId = table.Column<string>(nullable: true),
-                    IsFeatured = table.Column<bool>(nullable: false)
+                    IsFeatured = table.Column<bool>(nullable: false),
+                    AllowComments = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

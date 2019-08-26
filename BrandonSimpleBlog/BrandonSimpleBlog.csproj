@@ -27,6 +27,8 @@
     <Compile Remove="Data\Migrations\20190621005634_AddBlogTables.Designer.cs" />
     <Compile Remove="Data\Migrations\20190726042524_AddBlogTables.cs" />
     <Compile Remove="Data\Migrations\20190726042524_AddBlogTables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190801081046_AddBlogTables.cs" />
+    <Compile Remove="Data\Migrations\20190801081046_AddBlogTables.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -19,5 +19,6 @@ namespace BrandonSimpleBlog.Data
         public bool HasImage { get; set; }
         public bool IsPublished { get; set; }
         public bool IsFeatured { get; set; }
+        public bool AllowComments { get; set; }
     }
 }

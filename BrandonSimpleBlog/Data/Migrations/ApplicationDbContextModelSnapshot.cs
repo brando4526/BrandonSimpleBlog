@@ -82,6 +82,8 @@ namespace BrandonSimpleBlog.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("AllowComments");
+
                     b.Property<string>("AuthorId");
 
                     b.Property<string>("Categories");

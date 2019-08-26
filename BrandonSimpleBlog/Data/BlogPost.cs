@@ -28,5 +28,6 @@ namespace BrandonSimpleBlog.Data
         public string Categories { get; set; }
         public string UniqueId { get; set; }
         public bool IsFeatured { get; set; }
+        public bool AllowComments { get; set; }
     }
 }

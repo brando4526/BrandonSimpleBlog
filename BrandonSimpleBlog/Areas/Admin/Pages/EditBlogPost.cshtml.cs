@@ -55,6 +55,8 @@ namespace BrandonSimpleBlog.Areas.Admin.Pages
             [DataType(DataType.Upload)]
             [Display(Name = "Post Image(png format 750x300 or larger)")]
             public IFormFile Image { get; set; }
+            [Display(Name = "Allow Comments?")]
+            public bool AllowComments { get; set; }
 
         }
 
@@ -71,7 +73,7 @@ namespace BrandonSimpleBlog.Areas.Admin.Pages
                 var user = await _userManager.GetUserAsync(User);
                 var blogPost = _blogRepo.GetPost(id);
                 
-                if (user.Id != blogPost.AuthorId || !User.IsInRole("Administrator"))
+                if (!User.IsInRole("Administrator") && !user.Id.Equals(blogPost.AuthorId))
                 {
                     return RedirectToPage("./ManageBlogPosts");
                 }
@@ -101,7 +103,8 @@ namespace BrandonSimpleBlog.Areas.Admin.Pages
                 Input = new InputModel
                 {
                     Id = 0,
-                    Categories=""
+                    Categories="",
+                    AllowComments=false
                 };
                 PostImageURL = _configuration.GetSection("BlobService")["StorageURL"] + "images/post/750x300blogpost.png";
                 return Page();
@@ -118,10 +121,7 @@ namespace BrandonSimpleBlog.Areas.Admin.Pages
             }
             if (ModelState.IsValid)
             {
-                if (Input.Image!=null)
-                {
-
-                }
+                
                 if (Input.Id==0)
                 {
                     var user = await _userManager.GetUserAsync(User);
@@ -139,7 +139,8 @@ namespace BrandonSimpleBlog.Areas.Admin.Pages
                         IsPublished = false,
                         IsFeatured = false,
                         //TODO: UniqueId
-                        Slug = Input.Title.ToLowerInvariant().Replace(' ', '-')
+                        Slug = Input.Title.ToLowerInvariant().Replace(' ', '-'),
+                        AllowComments=Input.AllowComments
                     };
                     
 
@@ -159,7 +160,8 @@ namespace BrandonSimpleBlog.Areas.Admin.Pages
                         }
                         
                     }
-                    
+                    return RedirectToPage("./EditBlogPost", new { id = blogPost.PostId });
+
                 }
                 else
                 {
@@ -169,6 +171,7 @@ namespace BrandonSimpleBlog.Areas.Admin.Pages
                     blogPost.Excerpt = Input.Excerpt;
                     blogPost.Categories=Input.Categories;
                     blogPost.LastUpdated = DateTime.Now;
+                    blogPost.AllowComments = Input.AllowComments;
                     if (Input.Image != null)
                     {
                         if (Input.Image.Length > 0)
@@ -189,8 +192,7 @@ namespace BrandonSimpleBlog.Areas.Admin.Pages
                 }
                 
             }
-            //throw new InvalidOperationException($"Unexpected error occurred.");
-            //If we get this far something went wrong
+            
             return Page();
         }
     }

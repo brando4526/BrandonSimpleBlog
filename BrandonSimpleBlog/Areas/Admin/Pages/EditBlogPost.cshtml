@@ -1,13 +1,22 @@
 ﻿@page  "{id:int?}"
 @model BrandonSimpleBlog.Areas.Admin.Pages.EditBlogPostModel
 @{
-        var catstring = "";
-        foreach (var cat in Model.CategoryOptions)
-        {
-            catstring+='"'+cat + '"' + ",";
-        }
-        
+    if (Model.Input.Id>0)
+    {
+        ViewData["Title"] = "Edit Blog Post";
     }
+    else
+    {
+        ViewData["Title"] = "Create Blog Post";
+    }
+    
+    var catstring = "";
+    foreach (var cat in Model.CategoryOptions)
+    {
+        catstring+='"'+cat + '"' + ",";
+    }
+
+}
 
 <div class="row">
 
@@ -34,7 +43,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Input.Categories"></label>
-                        <input id='tags'  class="form-control" placeholder='Enter categories' value="@Model.Input.Categories">
+                        <input id='tags' class="form-control" placeholder='Enter categories' value="@Model.Input.Categories">
                         <input id='hiddenTags' asp-for="Input.Categories" type="hidden" />
                         @*<input asp-for="Input.Categories" type="text" class="form-control" />*@
                         <span asp-validation-for="Input.Content" class="text-danger"></span>
@@ -45,7 +54,15 @@
                         <img src="@Model.PostImageURL" alt="current post image" />
                         <span asp-validation-for="Input.Image" class="text-danger"></span>
                     </div>
-                    
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label asp-for="Input.AllowComments">
+                                <input asp-for="Input.AllowComments" />
+                                @Html.DisplayNameFor(m => m.Input.AllowComments)
+                            </label>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-success"><span class="fas fa-check"></span> Save</button>
                 </form>
 

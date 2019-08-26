@@ -37,7 +37,7 @@ namespace BrandonSimpleBlog.Data
                 return;   // users have already been seeded
             }
 
-            var user = new ApplicationUser()
+            var adminUser = new ApplicationUser()
             {
                 Email = "admin@admin.com",
                 UserName = "admin",
@@ -49,16 +49,30 @@ namespace BrandonSimpleBlog.Data
                 
             };
 
-            _userMgr.CreateAsync(user, "Skittles123!").Wait(); // Temp Password
+            _userMgr.CreateAsync(adminUser, "Skittles123!").Wait(); // Temp Password
 
-            _userMgr.AddToRoleAsync(user, "Administrator").Wait();
+            _userMgr.AddToRoleAsync(adminUser, "Administrator").Wait();
+
+            var guestUser = new ApplicationUser()
+            {
+                Email = "guest@guest.com",
+                UserName = "guest",
+                EmailConfirmed = true,
+                LastName = "Guest",
+                FirstName = "Brandon",
+                HasAvatarImage = false
+            };
+
+            _userMgr.CreateAsync(guestUser, "Skittles123!").Wait(); // Temp Password
+
+            _userMgr.AddToRoleAsync(guestUser, "Guest").Wait();
 
             _context.SaveChangesAsync().Wait();
 
             //adding sample blog posts
             var blogPostSample1 = new BlogPost()
             {
-                AuthorId=user.Id,
+                AuthorId= adminUser.Id,
                 DatePublished = DateTime.Now,
                 DateCreated=DateTime.Now,
                 Title = "Sample Blog 1",
@@ -67,12 +81,13 @@ namespace BrandonSimpleBlog.Data
                 IsPublished = true,
                 Categories = "Sample",
                 Slug = "sample-post-1",
-                IsFeatured=true
+                IsFeatured=true,
+                AllowComments=false
             };
 
             var blogPostSample2 = new BlogPost()
             {
-                AuthorId = user.Id,
+                AuthorId = adminUser.Id,
                 DatePublished = DateTime.Now.AddDays(1),
                 DateCreated=DateTime.Now.AddDays(1),
                 Title = "Sample Blog 2",
@@ -81,12 +96,13 @@ namespace BrandonSimpleBlog.Data
                 IsPublished = true,
                 Categories = "Sample,Sample2",
                 Slug = "sample-post-2",
-                IsFeatured = true
+                IsFeatured = true,
+                AllowComments = false
             };
 
             var blogPostSample3 = new BlogPost()
             {
-                AuthorId = user.Id,
+                AuthorId = adminUser.Id,
                 DatePublished = DateTime.Now.AddDays(2),
                 DateCreated=DateTime.Now.AddDays(2),
                 Title = "Sample Blog 3",
@@ -95,7 +111,8 @@ namespace BrandonSimpleBlog.Data
                 IsPublished = true,
                 Categories = "Sample,Sample3",
                 Slug = "sample-post-3",
-                IsFeatured = false
+                IsFeatured = false,
+                AllowComments = false
             };
 
             _context.BlogPosts.Add(blogPostSample1);
@@ -107,7 +124,7 @@ namespace BrandonSimpleBlog.Data
             {
                 var blogPostSampleloop = new BlogPost()
                 {
-                    AuthorId = user.Id,
+                    AuthorId = adminUser.Id,
                     DatePublished = DateTime.Now.AddDays(i),
                     DateCreated= DateTime.Now.AddDays(i),
                     Title = "Sample Blog "+i,
@@ -116,7 +133,8 @@ namespace BrandonSimpleBlog.Data
                     IsPublished = true,
                     Categories = "Sample,Sample2",
                     Slug = "sample-post-"+i,
-                    IsFeatured = false
+                    IsFeatured = false,
+                    AllowComments = false
                 };
                 _context.BlogPosts.Add(blogPostSampleloop);
             }

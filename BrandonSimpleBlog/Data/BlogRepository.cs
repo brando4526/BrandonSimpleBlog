@@ -124,7 +124,8 @@ namespace BrandonSimpleBlog.Data
                         Title=d.Title,
                         UniqueId=d.UniqueId,
                         IsPublished=d.IsPublished,
-                        IsFeatured=d.IsFeatured
+                        IsFeatured=d.IsFeatured,
+                        AllowComments=d.AllowComments
                         
                     })
                     .Skip((page - 1) * pageSize).Take(pageSize)
@@ -153,7 +154,8 @@ namespace BrandonSimpleBlog.Data
                         Title = d.Title,
                         UniqueId = d.UniqueId,
                         IsPublished=d.IsPublished,
-                        IsFeatured = d.IsFeatured
+                        IsFeatured = d.IsFeatured,
+                        AllowComments=d.AllowComments
                     })
                     .Skip((page - 1) * pageSize).Take(pageSize)
 
@@ -187,7 +189,8 @@ namespace BrandonSimpleBlog.Data
                         Title = d.Title,
                         UniqueId = d.UniqueId,
                         IsPublished=d.IsPublished,
-                        IsFeatured = d.IsFeatured
+                        IsFeatured = d.IsFeatured,
+                        AllowComments=d.AllowComments
                     })
                     .Skip((page - 1) * pageSize).Take(pageSize)
 
@@ -217,7 +220,8 @@ namespace BrandonSimpleBlog.Data
                         Title = d.Title,
                         UniqueId = d.UniqueId,
                         IsPublished=d.IsPublished,
-                        IsFeatured = d.IsFeatured
+                        IsFeatured = d.IsFeatured,
+                        AllowComments=d.AllowComments
                     })
                     .Skip((page - 1) * pageSize).Take(pageSize)
 
@@ -247,7 +251,8 @@ namespace BrandonSimpleBlog.Data
                     Title = d.Title,
                     UniqueId = d.UniqueId,
                     IsPublished=d.IsPublished,
-                    IsFeatured = d.IsFeatured
+                    IsFeatured = d.IsFeatured,
+                    AllowComments=d.AllowComments
                 })
                 .Skip((page - 1) * pageSize).Take(pageSize)
 
@@ -276,7 +281,8 @@ namespace BrandonSimpleBlog.Data
                     Title = d.Title,
                     UniqueId = d.UniqueId,
                     IsPublished=d.IsPublished,
-                    IsFeatured = d.IsFeatured
+                    IsFeatured = d.IsFeatured,
+                    AllowComments=d.AllowComments
                 })
                 .Skip((page - 1) * pageSize).Take(pageSize)
 
@@ -305,7 +311,8 @@ namespace BrandonSimpleBlog.Data
                     Title = d.Title,
                     UniqueId = d.UniqueId,
                     IsPublished=d.IsPublished,
-                    IsFeatured = d.IsFeatured
+                    IsFeatured = d.IsFeatured,
+                    AllowComments=d.AllowComments
                 })
                 .Skip((page - 1) * pageSize).Take(pageSize)
 
@@ -328,7 +335,8 @@ namespace BrandonSimpleBlog.Data
                     Title = d.Title,
                     UniqueId = d.UniqueId,
                     IsPublished = d.IsPublished,
-                    IsFeatured = d.IsFeatured
+                    IsFeatured = d.IsFeatured,
+                    AllowComments=d.AllowComments
                 })
                 .ToList();
             return featuredPosts;
